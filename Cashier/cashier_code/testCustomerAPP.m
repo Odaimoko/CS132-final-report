@@ -6,9 +6,10 @@ classdef testCustomerAPP < matlab.uitest.TestCase
     methods (TestMethodSetup)
         function launchApp(testCase)
             addpath('..');
-
+            db = Database();
             testCase.App = CustomerUI;
-            %testCase.addTeardown(@delete,testCase.App);
+            testCase.App.setDatabase(db);
+            testCase.addTeardown(@delete,testCase.App);
         end
     end
     methods (Test)
@@ -60,7 +61,7 @@ classdef testCustomerAPP < matlab.uitest.TestCase
             pause(2);
             testCase.verifyEqual(testCase.App.UITable.Data(1,:),table("多芬",1,13));
         end
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%      
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%      
         function test_SingleItemMinusButtonPushed(testCase)
             % State: one item1 in the payment table.
             % Input: Press the item1_minus button 
@@ -71,23 +72,23 @@ classdef testCustomerAPP < matlab.uitest.TestCase
             pause(1);
             testCase.press(testCase.App.item1_minus);
             pause(2);
-            testCase.verifyEqual(testCase.App.UITable.Data,table([],[],[]));
+            testCase.verifyEqual(isempty(testCase.App.UITable.Data),true);
         end
         
         function test_SingleItemPlusMultiTimesButtonPushed(testCase)
-            % State: No item1 in the payment table， the number of item1 is
-            % 10.
-            % Input: Press the item1_plus button 11 times
-            % Expected Output: Display ‘缺货’.
+            % State: No item1 in the payment table， the number of item1 is 10.
+            % Input: Press the item1_plus button 15 times
+            % Expected Output: The number of the items in the payment UItable is 10.
+            Var2 = testCase.getRemainNum('多芬');
+            Var3 = 13*Var2;
             testCase.press(testCase.App.Menu1_1);
             pause(1);
-            for i = 1:11
+            for i = 1:15
                 testCase.press(testCase.App.item1_plus);
             end
             
             pause(2);
-            testCase.press(testCase.App.PaySuccess);
-            testCase.verifyEqual(testCase.App.PaySuccess.Text,'缺货！！！');
+            testCase.verifyEqual(testCase.App.UITable.Data(1,:),table("多芬",Var2,Var3));
             
         end
         
@@ -132,16 +133,7 @@ classdef testCustomerAPP < matlab.uitest.TestCase
             testCase.press(testCase.App.item2_plus);
             testCase.press(testCase.App.item2_plus);
             pause(1.5);
-%             testCase.press(testCase.App.Menu1_1);
-%             testCase.press(testCase.App.item1_minus);
-%             pause(1.5);
-%             testCase.press(testCase.App.Menu2_1);
-%             testCase.press(testCase.App.item2_minus);
-%             pause(1.5);
-%             testCase.press(testCase.App.Menu1_2);
-%             pause(1.5);
-%             testCase.press(testCase.App.item2_minus);
-            pause(1.5);
+
             testCase.press(testCase.App.Menu1_2);
             testCase.press(testCase.App.item2_minus);
             pause(1.5);
@@ -161,7 +153,9 @@ classdef testCustomerAPP < matlab.uitest.TestCase
             % Input: Press the PayButton
             % Expected Output: The items in the payment table are deducted
             % in the database, the  payment table is flushed and PaySuccess
-            % text displays.
+            % text displays, the number of the item deducts from the database.
+            remainNum1 = testCase.getRemainNum('多芬');
+            remainNum2 = testCase.getRemainNum('好吃点');
             testCase.press(testCase.App.Menu1_1);
             testCase.press(testCase.App.item1_plus);
             pause(1);
@@ -169,7 +163,31 @@ classdef testCustomerAPP < matlab.uitest.TestCase
             testCase.press(testCase.App.item2_plus);
             pause(1);
             testCase.press(testCase.App.PayButton);
-            pause(2);
+            pause(5);
+            testCase.verifyEqual(testCase.App.PaySuccess.Text,'支付成功！点击继续下次购物');
+            testCase.verifyEqual(testCase.getRemainNum('多芬'),remainNum1 - 1);
+            testCase.verifyEqual(testCase.getRemainNum('好吃点'),remainNum2 - 1);
+        end
+        
+        function test_PrintTicket(testCase)
+            % State: One item1 in Menu1_1 and one item2 in Menu2_2 are
+            % added to the table, and pay success.
+            % Input: Press the Printer button.
+            % Expected Output: The information of the items displays
+            % correctly in the ticket.
+            testCase.press(testCase.App.Menu1_1);
+            testCase.press(testCase.App.item1_plus);
+            pause(1);
+            testCase.press(testCase.App.Menu2_2);
+            testCase.press(testCase.App.item2_plus);
+            pause(1);
+            testCase.press(testCase.App.PayButton);
+            testCase.press(testCase.App.Printer);
+            ticket = testCase.App.getTicket();
+            Var1 = ["多芬";"好吃点"];
+            Var2 = [1;1];
+            Var3 = [13;5];
+            testCase.verifyEqual(ticket,table(Var1,Var2,Var3));
         end
 
     end
@@ -195,7 +213,19 @@ classdef testCustomerAPP < matlab.uitest.TestCase
                     return
                 end
             end
-        end
+       end
+       
+       function num = getRemainNum(testCase,brandName)
+           db = testCase.App.getDatabase();
+           num = 0;
+           for i = 1:db.getGoodsNum()
+               goods = db.getGoods(i);
+               if strcmp(goods.brand, brandName)
+                   num = goods.remain_num;
+                   return
+               end
+           end
+       end
         
     end
     
