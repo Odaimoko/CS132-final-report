@@ -60,25 +60,10 @@ classdef testManagerUI < matlab.uitest.TestCase
             testCase.type(testCase.App.price, value);
             testCase.press(testCase.App.registerButton);
             testCase.verifyEqual(testCase.App.errorInfo.Text,'请确保输入了正确的商品信息！！' ); 
-            pause(3);
+           
         end
         
-        function test_InvalidPrice_notNum(testCase)
-            % State: The price is not been entered, the other four inputs are valid.
-            % Input: input a price but not a number, press the registerButton.
-            % Expected Output: The errorInfo displays "请确保输入了正确的商品信息！！".
-            testCase.App.brand.Value = '可口可乐';
-            testCase.App.type.Value = '汽水';
-            testCase.App.DropDown.Value =  '饮料';
-            testCase.App.img.Value = 'img/kkkl.jpg';
-            testCase.App.num.Value = 10;
-            
-            value = '十元';
-            testCase.type(testCase.App.price, value);
-            testCase.press(testCase.App.registerButton);
-            testCase.verifyEqual(testCase.App.errorInfo.Text,'请确保输入了正确的商品信息！！' ); 
-            pause(3);
-        end
+      
         
         function test_InvalidNum_negativeNum(testCase)
             % State: The price is not been entered, the other four inputs are valid.
@@ -95,27 +80,10 @@ classdef testManagerUI < matlab.uitest.TestCase
             pause(1);
             testCase.press(testCase.App.registerButton);
             testCase.verifyEqual(testCase.App.errorInfo.Text,'请确保输入了正确的商品信息！！' ); 
-            pause(3);
+     
         end
         
-        function test_InvalidNUm_notNum(testCase)
-            % State: The price is not been entered, the other four inputs are valid.
-            % Input: input a price but not a number, press the registerButton.
-            % Expected Output: The errorInfo displays "请确保输入了正确的商品信息！！".
-            testCase.App.brand.Value = '可口可乐';
-            testCase.App.type.Value = '汽水';
-            testCase.App.DropDown.Value =  '饮料';
-            testCase.App.img.Value = 'img/kkkl.jpg';
-            testCase.App.price.Value = 3;
-            
-            value = '十个';
-            testCase.type(testCase.App.num, value);
-            pause(1);
-            testCase.press(testCase.App.registerButton);
-            testCase.verifyEqual(testCase.App.errorInfo.Text,'请确保输入了正确的商品信息！！' ); 
-            pause(3);
-        end
-        
+    
         
         
         function test_InvalidImg_notPath(testCase)
@@ -132,7 +100,7 @@ classdef testManagerUI < matlab.uitest.TestCase
             testCase.type(testCase.App.img, value);
             testCase.press(testCase.App.registerButton);
             testCase.verifyEqual(testCase.App.errorInfo.Text,'请确保输入了正确的商品信息！！' ); 
-            pause(3);
+         
             
         end
         
@@ -152,7 +120,7 @@ classdef testManagerUI < matlab.uitest.TestCase
             testCase.type(testCase.App.img, value);
             testCase.press(testCase.App.registerButton);
             testCase.verifyEqual(testCase.App.errorInfo.Text,'请确保输入了正确的商品信息！！' );       
-            pause(3);
+   
         end
         
         function test_registerButtonPushed(testCase)
@@ -165,8 +133,9 @@ classdef testManagerUI < matlab.uitest.TestCase
             testCase.App.price.Value = 100;
             testCase.App.img.Value = 'img/kkkl.jpg';
             testCase.App.num.Value = 10;
+            testCase.press(testCase.App.registerButton);
             testCase.verifyEqual(testCase.App.errorInfo.Text,'登记成功！' );
-            pause(3);
+         
         end
         
         
