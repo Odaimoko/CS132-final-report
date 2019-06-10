@@ -28,11 +28,11 @@ If every part of the report is complete, check the **Title**. For example all fi
 Markdown checklist can be checked by replacing the space with `x` in the square brackets.
 
 + [ ] Banking
-    + [ ] Software requirements
+    + [x] Software requirements
     + [x] Software specifications
     + [x] MATLAB Source code (can be in a folder)
     + [x] Software validation report
-    + [ ] Traceability report
+    + [x] Traceability report
 + [ ] Cashier
     + [x] Software requirements
     + [x] Software specifications
