@@ -31,16 +31,16 @@ Markdown checklist can be checked by replacing the space with `x` in the square 
     + [ ] Software requirements
     + [x] Software specifications
     + [x] MATLAB Source code (can be in a folder)
-    + [ ] Software validation report
+    + [x] Software validation report
     + [ ] Traceability report
 + [ ] Cashier
     + [x] Software requirements
-    + [ ] Software specifications
-    + [ ] MATLAB Source code (can be in a folder)
+    + [x] Software specifications
+    + [x] MATLAB Source code (can be in a folder)
     + [ ] Software validation report
     + [ ] Traceability report
 + [ ] Poker
-    + [ ] Software requirements
+    + [x] Software requirements
     + [ ] Software specifications
     + [ ] MATLAB Source code (can be in a folder)
     + [x] Software validation report
