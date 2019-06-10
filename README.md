@@ -34,7 +34,7 @@ Markdown checklist can be checked by replacing the space with `x` in the square 
     + [ ] Software validation report
     + [ ] Traceability report
 + [ ] Cashier
-    + [ ] Software requirements
+    + [x] Software requirements
     + [ ] Software specifications
     + [ ] MATLAB Source code (can be in a folder)
     + [ ] Software validation report
@@ -43,5 +43,5 @@ Markdown checklist can be checked by replacing the space with `x` in the square 
     + [ ] Software requirements
     + [ ] Software specifications
     + [ ] MATLAB Source code (can be in a folder)
-    + [ ] Software validation report
+    + [x] Software validation report
     + [ ] Traceability report
